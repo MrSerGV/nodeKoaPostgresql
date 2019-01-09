@@ -1,39 +1,23 @@
 
-const knex = require('../connection');
+const pool = require('/index');
 
 function getAllPosts() {
-    return knex('posts').select('*');
-  }
+    return pool.query('SELECT NOW()')
+    .then(result => console.log(result))
+    .catch(e => console.error(e.stack))
+    .then(() => pool.end());
+}
   
-  function getPostById(id) {
-    return knex('posts')
-      .select('*')
-      .where({id: parseInt(id)});
-  }
+function addPost(post) {
+    return pool.query(text, values)
+    .then(res => {
+      console.log(res.rows[0])
+    })
+    .catch(e => console.error(e.stack))
+}
   
-  function addPost(post) {
-    return knex('posts')
-      .insert(post)
-      .returning('*');
-  }
   
-  function updatePost(id, post) {
-    return knex('posts')
-      .update(post)
-      .where({ id: parseInt(id) })
-      .returning('*');
-  }
-  
-  function deletePost(id) {
-    return knex('posts')
-      .del()
-      .where({ id: parseInt(id) })
-      .returning('*');
-  }
   module.exports = {
     getAllPosts,
-    getPostById,
     addPost,
-    updatePost,
-    deletePost,
-  };
+};
